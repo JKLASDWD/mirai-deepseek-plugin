@@ -24,15 +24,18 @@ import java.util.List;
 import java.util.Map;
 
 public class DeepSeekPluginUserCommand extends JCompositeCommand {
-    public static final DeepSeekPluginUserCommand INSTANCE = new DeepSeekPluginUserCommand();
-    public Permission userpermission = PermissionService.getInstance().get(PermissionId.parseFromString("com.jklasdwd.deepseek.plugin:userpermission"));
+
+    public Permission userpermission = PermissionService.getInstance().get(PermissionId.parseFromString("com.jklasdwd.deepseek.plugin:user-permission"));
     public DeepSeekPluginUserCommand() {
         super(DeepSeekPluginMain.INSTANCE,"chat");
         setDescription("基本用户指令");
         setPermission(userpermission);
         this.getUsage();
     }
-    public static Value<Map<Long, Map<Long, List<Pair<String, String>>>>> plugin_data_group_user_context = DeepSeekPluginData.INSTANCE.chatgroupcontext;
+    public static final DeepSeekPluginUserCommand INSTANCE = new DeepSeekPluginUserCommand();
+    private static final Value<Map<Long, Map<Long, List<Pair<String, String>>>>> plugin_data_group_user_context = DeepSeekPluginData.INSTANCE.chatgroupcontext;
+    private static final Value<Map<Long,Long>> plugin_data_chat_user_count = DeepSeekPluginData.INSTANCE.chatusercount;
+    @Description("对话指令")
     public void onCommand(MemberCommandSender sender, String chattext) {
         if(DeepSeekPluginMain.ApiKey.isEmpty() || DeepSeekPluginMain.Model_Id.isEmpty()) {
             sender.sendMessage("ApiKey或Model_ID配置有误！");
@@ -58,6 +61,7 @@ public class DeepSeekPluginUserCommand extends JCompositeCommand {
         }
         // 大于设定最长上下文，清空
         else if (context.size() > DeepSeekPluginMain.maxcontextlength) {
+            sender.sendMessage("达到上下文限制！已清空上下文");
             context.clear();
             context.add(new Pair<>(
                     "system",
@@ -131,16 +135,18 @@ public class DeepSeekPluginUserCommand extends JCompositeCommand {
         Long userId = sender.getUser().getId();
 
         Map<Long, Map<Long, List<Pair<String, String>>>> group_user_context = plugin_data_group_user_context.get();
+        Map<Long,Long> user_count = plugin_data_chat_user_count.get();
         Map<Long,List<Pair<String,String>>> user_context_map = group_user_context.get(groupId);
         if(user_context_map == null || !user_context_map.containsKey(userId)) {
                 sender.sendMessage("上下文为空！");
                 return;
         }
         user_context_map.remove(userId);
-        sender.sendMessage("清除成功！");
+        sender.sendMessage(sender.getName()+user_count.get(userId)+"条记录清除成功！");
         group_user_context.put(groupId,user_context_map);
+        user_count.put(userId,0L);
         plugin_data_group_user_context.set(group_user_context);
-
+        plugin_data_chat_user_count.set(user_count);
     }
     @SubCommand("check")
     @Description("检查并输出上下文")

@@ -1,9 +1,7 @@
 package com.jklasdwd.deepseek.plugin;
-import com.volcengine.ark.runtime.model.completion.chat.ChatCompletionRequest;
-import com.volcengine.ark.runtime.model.completion.chat.ChatMessage;
-import com.volcengine.ark.runtime.model.completion.chat.ChatMessageRole;
+import com.volcengine.ark.runtime.exception.ArkException;
 import com.volcengine.ark.runtime.service.ArkService;
-import net.mamoe.mirai.console.data.Value;
+import net.mamoe.mirai.console.command.CommandManager;
 import net.mamoe.mirai.console.plugin.jvm.JavaPlugin;
 import net.mamoe.mirai.console.plugin.jvm.JvmPluginDescriptionBuilder;
 
@@ -29,7 +27,32 @@ public class DeepSeekPluginMain extends JavaPlugin {
 
         ApiKey = DeepSeekPluginConfig.INSTANCE.apikey.get();
         Model_Id = DeepSeekPluginConfig.INSTANCE.model_id.get();
-        arkService = ArkService.builder().apiKey(ApiKey).build();
         maxcontextlength = DeepSeekPluginConfig.INSTANCE.max_context_length.get();
+        DeepSeekPluginPermission.UserPermission.getValue();
+        DeepSeekPluginPermission.OwnerPermission.getValue();
+        try{
+            arkService = ArkService.builder().apiKey(ApiKey).build();
+        }
+        catch (Exception e){
+            getLogger().error("ArkService连接失败！请检查Api密钥或模型ID是否正确", e);
+            return;
+        }
+        CommandManager.INSTANCE.registerCommand(DeepSeekPluginUserCommand.INSTANCE,false);
+        CommandManager.INSTANCE.registerCommand(DeepSeekPluginOwnerCommand.INSTANCE,false);
+    }
+    @Override
+    public void onDisable() {
+        super.onDisable();
+        getLogger().info("DeepSeekPlugin disabled");
+        this.savePluginConfig(DeepSeekPluginConfig.INSTANCE);
+        this.savePluginData(DeepSeekPluginData.INSTANCE);
+        CommandManager.INSTANCE.unregisterCommand(DeepSeekPluginUserCommand.INSTANCE);
+        CommandManager.INSTANCE.unregisterCommand(DeepSeekPluginOwnerCommand.INSTANCE);
+        try{
+            arkService.shutdownExecutor();
+        }
+        catch (Exception e){
+            getLogger().info("arKService 关闭失败！");
+        }
     }
 }

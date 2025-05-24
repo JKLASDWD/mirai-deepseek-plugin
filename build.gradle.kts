@@ -30,5 +30,6 @@ dependencies {
     // 若需要使用 Overflow 的接口，请取消注释下面这行
     // compileOnly("top.mrxiaom:overflow-core-api:$VERSION")
     testConsoleRuntime("top.mrxiaom.mirai:overflow-core:1.0.0")
+    testConsoleRuntime("com.volcengine:volcengine-java-sdk-ark-runtime:0.2.5")
     implementation("com.volcengine:volcengine-java-sdk-ark-runtime:0.2.5")
 }

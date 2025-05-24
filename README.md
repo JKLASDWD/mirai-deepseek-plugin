@@ -6,5 +6,7 @@
  
 - [x] UserCommand
 - [x] Permission
-- [ ] OwnerCommand
-
+- [x] OwnerCommand
+- Data
+- [x] 群组上下文存储
+- [ ] 统计每日使用量

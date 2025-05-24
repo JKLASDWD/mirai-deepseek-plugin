@@ -40,4 +40,9 @@ public class DeepSeekPluginConfig extends JavaAutoSavePluginConfig {
             createKType(Long.class),
             100L
     );
+    public final Value<Long> owner_id = typedValue(
+            "owner_id",
+            createKType(Long.class),
+            1L
+    );
 }
