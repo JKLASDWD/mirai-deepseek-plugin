@@ -38,6 +38,7 @@ public class DeepSeekPluginMain extends JavaPlugin {
         }
         CommandManager.INSTANCE.registerCommand(DeepSeekPluginUserCommand.INSTANCE,false);
         CommandManager.INSTANCE.registerCommand(DeepSeekPluginOwnerCommand.INSTANCE,false);
+        CommandManager.INSTANCE.registerCommand(DeepSeekPluginChatSimpleCommand.INSTANCE,false);
     }
     @Override
     public void onDisable() {
@@ -47,6 +48,7 @@ public class DeepSeekPluginMain extends JavaPlugin {
         this.savePluginData(DeepSeekPluginData.INSTANCE);
         CommandManager.INSTANCE.unregisterCommand(DeepSeekPluginUserCommand.INSTANCE);
         CommandManager.INSTANCE.unregisterCommand(DeepSeekPluginOwnerCommand.INSTANCE);
+        CommandManager.INSTANCE.unregisterCommand(DeepSeekPluginChatSimpleCommand.INSTANCE);
         try{
             arkService.shutdownExecutor();
         }
