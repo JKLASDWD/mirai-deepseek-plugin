@@ -1,5 +1,4 @@
 package com.jklasdwd.deepseek.plugin;
-import com.volcengine.ark.runtime.exception.ArkException;
 import com.volcengine.ark.runtime.service.ArkService;
 import net.mamoe.mirai.console.command.CommandManager;
 import net.mamoe.mirai.console.plugin.jvm.JavaPlugin;
