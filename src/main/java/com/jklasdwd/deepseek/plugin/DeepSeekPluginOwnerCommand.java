@@ -3,6 +3,7 @@ package com.jklasdwd.deepseek.plugin;
 import kotlin.Pair;
 import net.mamoe.mirai.console.command.CommandManager;
 import net.mamoe.mirai.console.command.CommandSender;
+import net.mamoe.mirai.console.command.ConsoleCommandSender;
 import net.mamoe.mirai.console.command.UserCommandSender;
 import net.mamoe.mirai.console.command.java.JCompositeCommand;
 import net.mamoe.mirai.console.permission.Permission;
@@ -71,16 +72,38 @@ public class DeepSeekPluginOwnerCommand extends JCompositeCommand {
         }
         sender.sendMessage(mes.build());
     }
+    @SubCommand("perm")
+    @Description("赋予某个群聊的对话权限")
     public void perm_group_permission(UserCommandSender sender,@Name("群号")Long group){
-        CommandManager.INSTANCE.executeCommand(sender,
+        CommandManager.INSTANCE.executeCommand(ConsoleCommandSender.INSTANCE,
                 new MessageChainBuilder()
-                        .append("/perm ")
+                        .append("/perm permit ")
                         .append("m")
                         .append(group.toString())
-                        .append(".* com.jklasdwd.deepseek.plugin:userpermission")
+                        .append(".* com.jklasdwd.deepseek.plugin:user-permission")
                         .build(),
                 true
         );
+        Map<Long,Boolean> m = DeepSeekPluginConfig.INSTANCE.chatgrouplist.get();
+        m.put(group, true);
+        DeepSeekPluginConfig.INSTANCE.chatgrouplist.set(m);
         sender.sendMessage("群权限赋予成功！");
+    }
+    @SubCommand("cancel")
+    @Description("清除某个群聊的对话权限")
+    public void cancel_group_permission(UserCommandSender sender,@Name("群号")Long group){
+        CommandManager.INSTANCE.executeCommand(ConsoleCommandSender.INSTANCE,
+                new MessageChainBuilder()
+                        .append("/perm cancel ")
+                        .append("m")
+                        .append(group.toString())
+                        .append(".* com.jklasdwd.deepseek.plugin:user-permission")
+                        .build(),
+                true
+        );
+        Map<Long,Boolean> m = DeepSeekPluginConfig.INSTANCE.chatgrouplist.get();
+        m.put(group, false);
+        DeepSeekPluginConfig.INSTANCE.chatgrouplist.set(m);
+        sender.sendMessage("群权限取消成功！");
     }
 }
