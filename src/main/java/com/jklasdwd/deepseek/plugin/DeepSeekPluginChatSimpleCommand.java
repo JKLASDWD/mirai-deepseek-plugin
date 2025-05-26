@@ -3,17 +3,15 @@ package com.jklasdwd.deepseek.plugin;
 import com.volcengine.ark.runtime.model.completion.chat.ChatCompletionRequest;
 import com.volcengine.ark.runtime.model.completion.chat.ChatMessage;
 import com.volcengine.ark.runtime.model.completion.chat.ChatMessageRole;
-import jdk.jfr.Description;
+
 import kotlin.Pair;
-import net.mamoe.mirai.console.command.CommandOwner;
-import net.mamoe.mirai.console.command.CompositeCommand;
 import net.mamoe.mirai.console.command.MemberCommandSender;
 import net.mamoe.mirai.console.command.java.JSimpleCommand;
 import net.mamoe.mirai.console.data.Value;
 import net.mamoe.mirai.console.permission.Permission;
 import net.mamoe.mirai.console.permission.PermissionId;
 import net.mamoe.mirai.console.permission.PermissionService;
-import org.jetbrains.annotations.NotNull;
+
 
 import java.util.ArrayList;
 import java.util.HashMap;
