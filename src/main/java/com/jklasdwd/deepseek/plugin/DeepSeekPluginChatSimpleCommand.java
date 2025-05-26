@@ -29,15 +29,21 @@ public class DeepSeekPluginChatSimpleCommand extends JSimpleCommand {
         setDescription("对话指令");
     }
     private static final Value<Map<Long, Map<Long, List<Pair<String, String>>>>> plugin_data_group_user_context = DeepSeekPluginData.INSTANCE.chatgroupcontext;
+    private static final Value<Map<Long, Boolean>> plugin_config_group_map = DeepSeekPluginConfig.INSTANCE.chatgrouplist;
     @Handler
     public void onCommand(MemberCommandSender sender, @Name("文本")String chattext) {
         if(DeepSeekPluginMain.ApiKey.isEmpty() || DeepSeekPluginMain.Model_Id.isEmpty()) {
             sender.sendMessage("ApiKey或Model_ID配置有误！");
             return;
         }
+
         Long groupId = sender.getGroup().getId();
         Long userId = sender.getUser().getId();
-
+        Map<Long,Boolean> group_map = plugin_config_group_map.get();
+        if(!group_map.containsKey(groupId)) {
+            sender.sendMessage("群权限未开通！");
+            return;
+        }
         Map<Long, Map<Long, List<Pair<String, String>>>> group_user_context = plugin_data_group_user_context.get();
         Map<Long, List<Pair<String, String>>> user_context_map = group_user_context.get(groupId);
 

@@ -4,21 +4,23 @@ import net.mamoe.mirai.console.data.Value;
 import net.mamoe.mirai.console.data.java.JavaAutoSavePluginConfig;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
-import java.util.List;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class DeepSeekPluginConfig extends JavaAutoSavePluginConfig {
     public DeepSeekPluginConfig(@NotNull String saveName) {
         super(saveName);
     }
     public static final DeepSeekPluginConfig INSTANCE = new DeepSeekPluginConfig("DeepSeekPluginConfig");
-    public final Value<List<Long>> chatgrouplist = typedValue(
+    public final Value<Map<Long,Boolean>> chatgrouplist = typedValue(
             "chatgrouplist",
             createKType(
-                    List.class,
-                    createKType(Long.class)
+                    Map.class,
+                    createKType(Long.class),
+                    createKType(Boolean.class)
             ),
-            new ArrayList<Long>() {}
+            new HashMap<Long, Boolean>(){}
     );
     public final Value<String> botbackground = typedValue(
             "botbackground",
