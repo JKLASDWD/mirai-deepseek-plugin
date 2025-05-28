@@ -44,7 +44,9 @@ public class DeepSeekPluginChatSimpleCommand extends JSimpleCommand {
         }
         Map<Long, Map<Long, List<Pair<String, String>>>> group_user_context = plugin_data_group_user_context.get();
         Map<Long, List<Pair<String, String>>> user_context_map = group_user_context.get(groupId);
-
+        if(user_context_map == null){
+            user_context_map = new HashMap<>();
+        }
         List<Pair<String, String>> context = user_context_map.get(userId);
         if (context == null ) {
             // 创建上下文List
