@@ -47,4 +47,14 @@ public class DeepSeekPluginConfig extends JavaAutoSavePluginConfig {
             createKType(Long.class),
             1L
     );
+    public final Value<String> web_search_background = typedValue(
+            "web_search_background",
+            createKType(String.class),
+            ""
+    );
+    public final Value<String> web_search_prefix_url = typedValue(
+            "web_search_prefix_url",
+            createKType(String.class),
+            ""
+    );
 }

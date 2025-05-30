@@ -44,8 +44,8 @@ public class DeepSeekPluginUserCommand extends JCompositeCommand {
                 sender.sendMessage("上下文为空！");
                 return;
         }
+        sender.sendMessage(sender.getName()+user_context_map.size()+"条记录清除成功！");
         user_context_map.remove(userId);
-        sender.sendMessage(sender.getName()+user_count.get(userId)+"条记录清除成功！");
         group_user_context.put(groupId,user_context_map);
         user_count.put(userId,0L);
         plugin_data_group_user_context.set(group_user_context);
