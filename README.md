@@ -13,7 +13,7 @@
 - [x] 群组上下文存储
 - [x] 群组多个用户上下文隔离对话
 - [ ] 统计每日使用量
-- [ ] 网页省流操作
+- [x] 网页省流操作
 - [ ] 群组同一上下文语境对话
 
 
@@ -27,6 +27,8 @@
 /chatowner clear <群号> <用户ID> #清除群聊内用户上下文
 /chatowner check <群号> <用户ID> #检查群聊内用户上下文，以转发聊天记录输出
 /chatowner perm <群号> #开启某个群聊的对话权限
+/web <文本> # Function_call实现，智能识别url进行网页省流操作
+/
 ```
 
 ## 权限
@@ -50,6 +52,8 @@ apikey: ''
 model_id: ''
 max_context_length: 100
 owner_id: 1
+web_search_background: ''
+web_search_prefix_url: ''
 ```
 
 apikey和model_id的填写请参阅火山引擎[官方文档](https://www.volcengine.com/docs/82379/)

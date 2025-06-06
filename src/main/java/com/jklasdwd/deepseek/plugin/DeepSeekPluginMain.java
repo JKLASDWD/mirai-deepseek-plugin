@@ -13,7 +13,7 @@ public class DeepSeekPluginMain extends JavaPlugin {
     private DeepSeekPluginMain() {
         super(new JvmPluginDescriptionBuilder(
                 "com.jklasdwd.deepseek.plugin",
-                "0.1.0"
+                "0.2.0"
         ).build());
     }
 
@@ -23,6 +23,7 @@ public class DeepSeekPluginMain extends JavaPlugin {
         getLogger().info("DeepSeekPlugin enabled");
         this.reloadPluginConfig(DeepSeekPluginConfig.INSTANCE);
         this.reloadPluginData(DeepSeekPluginData.INSTANCE);
+        this.reloadPluginData(DeepSeekPluginWebSearchCommandChatData.INSTANCE);
 
         ApiKey = DeepSeekPluginConfig.INSTANCE.apikey.get();
         Model_Id = DeepSeekPluginConfig.INSTANCE.model_id.get();
@@ -39,6 +40,7 @@ public class DeepSeekPluginMain extends JavaPlugin {
         CommandManager.INSTANCE.registerCommand(DeepSeekPluginUserCommand.INSTANCE,false);
         CommandManager.INSTANCE.registerCommand(DeepSeekPluginOwnerCommand.INSTANCE,false);
         CommandManager.INSTANCE.registerCommand(DeepSeekPluginChatSimpleCommand.INSTANCE,false);
+        CommandManager.INSTANCE.registerCommand(DeepSeekPluginWebSimpleCommand.INSTANCE,false);
     }
     @Override
     public void onDisable() {
@@ -46,9 +48,12 @@ public class DeepSeekPluginMain extends JavaPlugin {
         getLogger().info("DeepSeekPlugin disabled");
         this.savePluginConfig(DeepSeekPluginConfig.INSTANCE);
         this.savePluginData(DeepSeekPluginData.INSTANCE);
+        this.savePluginData(DeepSeekPluginWebSearchCommandChatData.INSTANCE);
+
         CommandManager.INSTANCE.unregisterCommand(DeepSeekPluginUserCommand.INSTANCE);
         CommandManager.INSTANCE.unregisterCommand(DeepSeekPluginOwnerCommand.INSTANCE);
         CommandManager.INSTANCE.unregisterCommand(DeepSeekPluginChatSimpleCommand.INSTANCE);
+        CommandManager.INSTANCE.unregisterCommand(DeepSeekPluginWebSimpleCommand.INSTANCE);
         try{
             arkService.shutdownExecutor();
         }

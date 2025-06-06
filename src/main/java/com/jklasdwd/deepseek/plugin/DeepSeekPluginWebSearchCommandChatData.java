@@ -1,6 +1,6 @@
 package com.jklasdwd.deepseek.plugin;
 
-import kotlin.Pair;
+
 import net.mamoe.mirai.console.data.Value;
 import net.mamoe.mirai.console.data.java.JavaAutoSavePluginData;
 
@@ -14,7 +14,7 @@ public class DeepSeekPluginWebSearchCommandChatData extends JavaAutoSavePluginDa
         super(savename);
     }
     public static final DeepSeekPluginWebSearchCommandChatData INSTANCE = new DeepSeekPluginWebSearchCommandChatData("DeepSeekPluginWebSearchCommandChatData");
-    public final Value<Map<Long,List<Pair<String,String>>>> web_context_data = typedValue(
+    public final Value<Map<Long,List<Map<String,String>>>> web_context_data = typedValue(
             "web_context_data",
             createKType(
                     Map.class,
@@ -22,7 +22,7 @@ public class DeepSeekPluginWebSearchCommandChatData extends JavaAutoSavePluginDa
                     createKType(
                             List.class,
                             createKType(
-                                    Pair.class,
+                                    Map.class,
                                     createKType(String.class),
                                     createKType(String.class)
                             )

@@ -6,8 +6,8 @@ plugins {
     id("net.mamoe.mirai-console") version "2.16.0"
 }
 
-group = "org.example"
-version = "1.0.0"
+group = "com.jklasdwd.deepseek.plugin"
+version = "0.2.0"
 
 repositories {
     if (System.getenv("CI")?.toBoolean() != true) {
@@ -31,5 +31,7 @@ dependencies {
     // compileOnly("top.mrxiaom:overflow-core-api:$VERSION")
     testConsoleRuntime("top.mrxiaom.mirai:overflow-core:1.0.0")
     testConsoleRuntime("com.volcengine:volcengine-java-sdk-ark-runtime:0.2.5")
+    testConsoleRuntime("org.jsoup:jsoup:1.17.2")
     implementation("com.volcengine:volcengine-java-sdk-ark-runtime:0.2.5")
+    implementation("org.jsoup:jsoup:1.17.2")
 }
