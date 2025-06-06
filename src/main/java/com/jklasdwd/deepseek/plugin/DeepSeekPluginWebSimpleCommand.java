@@ -76,13 +76,14 @@ public class DeepSeekPluginWebSimpleCommand extends JSimpleCommand {
                     ChatToolCall toolCall = mapper.convertValue(node, ChatToolCall.class);
                     messages.add(new ChatMessage.Builder()
                             .role(ChatMessageRole.ASSISTANT)
+                            .content("")
                             .toolCalls(Collections.singletonList(toolCall))
                             .build());
                 } catch (JsonProcessingException e) {
                     DeepSeekPluginMain.INSTANCE.getLogger().error("工具调用参数解析错误", e);
                 }
             }
-            if(map.containsKey("tool")){
+            else if(map.containsKey("tool")){
                 messages.add(new ChatMessage.Builder()
                         .role(ChatMessageRole.TOOL)
                         .toolCallId(map.get("tool_id"))
@@ -91,8 +92,8 @@ public class DeepSeekPluginWebSimpleCommand extends JSimpleCommand {
             }
             else {
                 messages.add(new ChatMessage.Builder()
-                        .role(map.containsKey("user") ? ChatMessageRole.USER : ChatMessageRole.SYSTEM)
-                        .content(map.get("user") != null ? map.get("user") : map.get("system"))
+                        .role(ChatMessageRoleUtil.fromValue(map.keySet().iterator().next()))
+                        .content(map.get(map.keySet().iterator().next()))
                         .build());
             }
         }
@@ -126,7 +127,7 @@ public class DeepSeekPluginWebSimpleCommand extends JSimpleCommand {
                 for (ChatToolCall toolCall : response_message.getToolCalls()) {
                     context_list.add(Map.of(
                             "tool_call",
-                            toolCall.toString()
+                            new ObjectMapper().writeValueAsString(toolCall) // 将工具调用转换为字符串存储;
                     ));
                     messages.add(response_message);
                     if ("get_url_content".equals(toolCall.getFunction().getName())) {
